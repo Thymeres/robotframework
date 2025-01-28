@@ -1,5 +1,11 @@
 *** Settings ***
-Library    String
+Library      SeleniumLibrary
+Library      DateTime
+Library      String
+Library    RequestsLibrary
+Library    OperatingSystem
+Library    JSONLibrary
+Library    Collections
 
 *** Keywords ***
 ${elementType:\w+} with text "${elementText}"
@@ -13,3 +19,10 @@ ${elementType:\w+} with text "${elementText}"
         ${xpath}=    Set Variable    xpath=//${elementType}\[normalize-space()="${elementText}"]
     END
     RETURN    ${xpath}
+    
+# Use to make a unique name using a timestamp with a user defined prefix
+Get timestamp name with prefix "${prefix}"
+    ${timestamp}=    Get Current Date    result_format=%Y%m%d%H%M%S
+    ${name}=    Set Variable   ${prefix}_${timestamp}
+    RETURN    ${name}
+    

@@ -7,7 +7,7 @@ Library    OperatingSystem
 Library    JSONLibrary
 Library    Collections
 
-Resource    ./utility.robot
+Resource    ./utility_keywords.robot
 
 *** Variables ***
 ${BASE_URL}=    https://automationexercise.com

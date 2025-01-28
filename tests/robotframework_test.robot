@@ -4,7 +4,14 @@ Library           SeleniumLibrary
 Library           DateTime
 Resource          ../keywords/action_keywords.robot
 Resource          ../keywords/api_keywords.robot
-Variables         ../pages/robotframework_exercise.py
+Resource          ../keywords/verification_keywords.robot
+Variables         ../pages/register_page.py
+Variables         ../pages/products_page.py
+Variables         ../pages/login_page.py
+Variables         ../pages/checkout_page.py
+Variables         ../pages/constants.py
+
+
 Test Setup       Opening Browser
 Test Teardown    Close Browser
 Test Timeout       60s
@@ -16,15 +23,15 @@ Opening Browser
     Wait Until Page Contains    Full-Fledged practice website for Automation Engineers     timeout=10s
 
 *** Test Cases ***
-Test Case1: Register User
+Test Case 1: Register User
     [Documentation]     User registration
     [Tags]      Registration
     Click Element With Text "Signup / Login"
     Wait Until Page Contains    New User Signup!
-    Input Text    ${SIGNUPNAME}    userfullname
+    Input Text    ${SIGNUPNAME_TXT}    userfullname
     # Create unique email with timestamp
     ${email}=    Get timestamp name with prefix "email"
-    Input Text    ${SIGNUPEMAIL}    ${email}@email.com
+    Input Text    ${SIGNUPEMAIL_TXT}    ${email}@email.com
     Click Button With Text "Signup"
     Wait Until Page Contains    Enter Account Information
     # Filling up form
@@ -46,7 +53,7 @@ Test Case1: Register User
     Input Text    id:address1    123 Testaddress
     Input Text    id:address2    Unit 100
     # Scrolling down to button because ads are blocking the fields
-    Scroll Element Into View    ${CREATEACCOUNT}
+    Scroll Element Into View    ${CREATEACCOUNT_BTN}
     Click Element    id:country
     Click Element With Text "Canada"
     Input Text    id:state    Ontario
@@ -54,8 +61,8 @@ Test Case1: Register User
     Input Text    id:zipcode    N1A 2B3
     Input Text    id:mobile_number    2261234567
     # Scrolling down to subscribe field because ads are blocking the continue button
-    Scroll Element Into View    id:subscribe
-    Click Element    ${CREATEACCOUNT}
+    Scroll Element Into View    ${SCROLLTOVIEW_LABEL}
+    Click Element    ${CREATEACCOUNT_BTN}
     # Account creation success page
     Wait Until Page Contains    Account Created!
     Click Element With Text "Continue"
@@ -79,9 +86,9 @@ Test Case 16: Place Order: Login before Checkout
     Click Button With Text "Login"
     # Verify user is logged in
     Wait Until Page Contains    Logged in as testname
-    Scroll Element Into View    ${STYLISHDRESS}
+    Scroll Element Into View    ${STYLISHDRESS_LABEL}
     # Go to product page and add to cart item
-    Click Element    ${BLUETOPVIEW}
+    Click Element    ${BLUETOPVIEW_BTN}
     Wait Until Page Contains    Write Your Review
     Click Button With Text "Add to cart"
     Wait Until Page Contains    Your product has been added to cart.
@@ -90,19 +97,19 @@ Test Case 16: Place Order: Login before Checkout
     Click Element With Text "Cart"
     # Verify that cart page is displayed with the correct order and Click Proceed To Checkout
     Wait Until Page Contains    Shopping Cart
-    Wait Until Page Contains Element   ${BLUETOP}
-    Click Element    ${CARTCHECKOUT}
+    Wait Until Page Contains Element   ${BLUETOP_LABEL}
+    Click Element    ${CARTCHECKOUT_BTN}
     #  Verify checkout page is displayed with correct Address Details and Item Order
     Wait Until Page Contains Element    id:address_delivery
-    Element Should Contain    ${FIRSTNAMEADDRESS}    testfirstname testlastname
-    Element Should Contain    ${ADDRESS1}    testaddress
-    Element Should Contain    ${CITY}    testcity teststate testzipcode
-    Element Should Contain    ${COUNTRY}    Canada
-    Element Should Contain    ${MOBILENUM}    testmobile_number
+    Element Should Contain    ${FIRSTNAMEADDRESS_LABEL}    testfirstname testlastname
+    Element Should Contain    ${ADDRESS1_LABEL}    testaddress
+    Element Should Contain    ${CITY_LABEL}    testcity teststate testzipcode
+    Element Should Contain    ${COUNTRY_LABEL}    Canada
+    Element Should Contain    ${MOBILENUM_LABEL}    testmobile_number
     Wait Until Page Contains Element    id:product-1
-    Scroll Element Into View    ${SCROLLTOVIEW}
+    Scroll Element Into View    ${SCROLLTOVIEW_LABEL}
     # Click Checkout
-    Click Element    ${CARTCHECKOUT}
+    Click Element    ${CARTCHECKOUT_BTN}
     # Enter payment details: Name on Card, Card Number, CVC, Expiration date
     Wait Until Page Contains Element    id:payment-form
     Input Text    name:name_on_card    testfirstname testlastname
@@ -119,3 +126,14 @@ Test Case 16: Place Order: Login before Checkout
     Click Element With Text "Continue"
     # Homepage
     Verify Element With Text "Signup / Login"
+
+   # Other possible tests:
+    # Searching a product
+    # Checking out a product without an account
+    # Correct invoice file content
+    # Product description
+    # Product filters
+    # Product reviews
+    # Correct subscription email
+    # Unsubscribe to email
+    # ETC...
