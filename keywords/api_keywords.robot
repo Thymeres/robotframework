@@ -14,13 +14,14 @@ ${BASE_URL}=    https://automationexercise.com
 
 *** Keywords ***
 Create user via api
+    [Arguments]    ${name}    ${email}    ${password}    ${firstname}    ${lastname}    ${address1}    ${country}    ${zipcode}    ${state}    ${city}    ${mobile_number}
     ${url}=    Set Variable    /api/createAccount
     ${timestamp_email}=    Get timestamp name with prefix "email"
     ${email_com}=    Set Variable    ${timestamp_email}@email.com
     Log To Console        ${email_com}
     ${headers}=    Create Dictionary    api-token=""
-    # User Details with unique email
-    ${body}=    Evaluate    {"name" : (None, "testname"), "email" : (None, "${emailcom}"), "password": (None, "Password1!"), "firstname": (None, "testfirstname"), "lastname": (None, "testlastname"), "address1": (None, "testaddress"), "country": (None, "Canada"), "zipcode": (None, "testzipcode"), "state": (None, "teststate"), "city": (None, "testcity"), "mobile_number": (None, "testmobile_number")}
+    # User Details with unique email (needs to be filled out in the actual test case)
+    ${body}=    Evaluate    {"name" : (None, "${name}"), "email" : (None, "${emailcom}"), "password": (None, "${password}"), "firstname": (None, "${firstname}"),"lastname": (None, "${lastname}"), "address1": (None, "${address1}"), "country": (None, "${country}"), "zipcode": (None, "${zipcode}"), "state": (None, "${state}"), "city": (None, "${city}"), "mobile_number": (None, "${mobile_number}")}
 
     Create Session    user_create_session    ${BASE_URL}
     ${request}=    POST On Session    user_create_session    ${url}    headers=${headers}    files=${body}
